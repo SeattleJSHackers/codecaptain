@@ -8,7 +8,6 @@
     <div class="col-md-4">
         <h3>Following:</h3>
         <div ng-show="user.interestedIn">
-            <p>{{user.username}} is following the following projects:</p>
             <ul>
                 <li ng-repeat="project in user.interestedIn"><a href="#/project/{{project}}">{{ project }}</a></li>
             </ul>
@@ -19,7 +18,6 @@
     <div class="col-md-4">
         <h3>Member of:</h3>
         <div ng-show="user.memberOf">
-            <p>{{ user.username }} is a <em>member</em> of the following projects:</p>
             <ul>
                 <li ng-repeat="project in user.memberOf"><a href="#/project/{{project}}">{{ project }}</a></li>
             </ul>
@@ -29,7 +27,9 @@
 
     <div class="col-md-4"><h3>Owner of:</h3>
         <div ng-show="user.ownerOf">
-            <p><a href="#/project/{{user.ownerOf}}">{{ user.ownerOf }}</a></p>
+            <ul>
+                <li><a href="#/project/{{user.ownerOf}}">{{ user.ownerOf }}</a></li>
+            </ul>
         </div>
         <p ng-show="!user.ownerOf">{{ user.username }} is not a project owner</p>
     </div>
