@@ -1,0 +1,7 @@
+<h1>{{ user.username }}</h1>
+<p>Email: <a href="mailto:{{user.email}}">{{ user.email }}</a></p>
+<p>{{ user.username }} is interested in the following projects:</p>
+<ul ng-show="user.projects">
+    <li ng-repeat="project in user.projects"><a href="#/project/{{project}}">{{ project }}</a></li>
+</ul>
+<p ng-show="user.ownerOf">Owner of: <a href="#/project/{{user.ownerOf}}">{{ user.ownerOf }}</a></p>
