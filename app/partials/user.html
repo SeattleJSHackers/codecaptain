@@ -1,0 +1,36 @@
+<h1>{{ user.username }}</h1>
+<h3 style="color: #666666; margin: .5em 0 1.25em;" ng-show="user.firstName && user.lastName"><em>{{ user.firstName + ' ' + user.lastName}}</em></h3>
+
+<h3>Email:</h3>
+<p><a href="mailto:{{user.email}}">{{ user.email }}</a></p>
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Following:</h3>
+        <div ng-show="user.interestedIn">
+            <p>{{user.username}} is following the following projects:</p>
+            <ul>
+                <li ng-repeat="project in user.interestedIn"><a href="#/project/{{project}}">{{ project }}</a></li>
+            </ul>
+        </div>
+        <p ng-show="!user.interestedIn">{{ user.username }} is not following any projects</p>
+    </div>
+
+    <div class="col-md-4">
+        <h3>Member of:</h3>
+        <div ng-show="user.memberOf">
+            <p>{{ user.username }} is a <em>member</em> of the following projects:</p>
+            <ul>
+                <li ng-repeat="project in user.memberOf"><a href="#/project/{{project}}">{{ project }}</a></li>
+            </ul>
+        </div>
+        <p ng-show="user.memberOf.length==0">{{ user.username }} is not a member of any projects</p>
+    </div>
+
+    <div class="col-md-4"><h3>Owner of:</h3>
+        <div ng-show="user.ownerOf">
+            <p><a href="#/project/{{user.ownerOf}}">{{ user.ownerOf }}</a></p>
+        </div>
+        <p ng-show="!user.ownerOf">{{ user.username }} is not a project owner</p>
+    </div>
+</div>
