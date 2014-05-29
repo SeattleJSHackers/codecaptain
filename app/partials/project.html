@@ -1,7 +1,38 @@
-<h1>{{ user.username }}</h1>
-<p>Email: <a href="mailto:{{user.email}}">{{ user.email }}</a></p>
-<p>{{ user.username }} is interested in the following projects:</p>
-<ul ng-show="user.projects">
-    <li ng-repeat="project in user.projects"><a href="#/project/{{project}}">{{ project }}</a></li>
-</ul>
-<p ng-show="user.ownerOf">Owner of: <a href="#/project/{{user.ownerOf}}">{{ user.ownerOf }}</a></p>
+<h2>{{ project.title }}</h2>
+<h3 style="color: #666666; margin: .5em 0 1.25em;"><em>{{ project.shortname }}</em></h3>
+
+<h3>Description:</h3>
+<p>{{ project.description }}</p>
+
+<div class="row">
+    <div class="col-md-3">
+        <h3>Owner:</h3>
+        <ul>
+            <li><a href="#/user/{{project.owner}}">{{ project.owner }}</a></li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h3>Creator:</h3>
+        <ul>
+            <li><a href="#/user/{{project.creator}}">{{ project.creator }}</a></li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div ng-show="project.members.length">
+            <h3>Members</h3>
+            <ul>
+                <li ng-repeat="user in project.members"><a href="#/user/{{ user }}">{{ user }}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div ng-show="project.followers.length">
+            <h3>Followers: </h3>
+            <ul>
+                <li ng-repeat="user in project.followers"><a href="#/user/{{ user }}">{{ user }}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
