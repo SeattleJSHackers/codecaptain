@@ -3,4 +3,4 @@ codecaptain
 
 A JavaScript tool for helping coders build and pick teams.
 
-### [Demo](https://cdn.rawgit.com/SeattlePubJS/codecaptain/6b72db824f4335145b3ec271cb69d7e1d6194570/app/index.html)
+### [Demo](https://cdn.rawgit.com/SeattlePubJS/codecaptain/46ef7e69c82494007da8a2ecb9d167412fa0f51d/app/index.html)
