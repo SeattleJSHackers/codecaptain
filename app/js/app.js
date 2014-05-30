@@ -33,6 +33,14 @@ config(['$routeProvider', function($routeProvider) {
         templateUrl: 'partials/editproject.html',
         controller: 'EditProjectCtrl'
     });
+    $routeProvider.when('/projects', {
+        templateUrl: 'partials/allprojects.html',
+        controller: 'OverviewCtrl'
+    });
+    $routeProvider.when('/users', {
+        templateUrl: 'partials/allusers.html',
+        controller: 'OverviewCtrl'
+    });
     $routeProvider.otherwise({
         templateUrl: 'partials/overview.html',
         controller: 'OverviewCtrl'

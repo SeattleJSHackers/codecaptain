@@ -17,19 +17,36 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <h1><a href="#">Code Captain</a></h1>
-        <h4>Build and pick teams of coders.</h4>
-        <hr/>
+
+    <div class="row" style="margin-top: 24px;">
+        <div class="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div style=" line-height: .75;">
+                        <p><a href="#" style="font-size: 200%;">Code Captain</a></p>
+                        <p style="font-style: italic; color: #555;">Build and pick teams of coders.</p>
+                    </div>
+                </div>
+                <ul class="nav nav-pills pull-right" ng-controller="MenuCtrl">
+                    <li ng-class="{active: active('/projects')}"><a href="#/projects">All Projects</a></li>
+                    <li ng-class="{active: active('/users')}"><a href="#/users">All Users</a></li>
+                    <li class="nav-divider"></li>
+                    <li ng-class="{active: active('/new/project')}" ng-show="loggedIn"><a href="#">New Project</a></li>
+                    <li ng-class="{active: active('/login')}" ng-show="!loggedIn"><a href="#/login">Log In</a></li>
+                    <li ng-class="{active: active('/new/user')}" ng-show="!loggedIn"><a href="#/new/user" class="login">Join</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-12">
+                <hr style="margin: 12px 0 0"/>
+            </div>
+        </div>
     </div>
+
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-
-        <div class="row">
-            <div ng-view></div>
-        </div>
+    <div ng-view></div>
   </div>
 
   <!-- In production use:

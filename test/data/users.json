@@ -1,0 +1,148 @@
+[
+    {
+        "username": "joshua",
+        "firstName": "Joshua",
+        "lastName": "Hutt",
+        "email": "joshua@huttj.com",
+        "interestedIn": [
+            "codecaptain"
+        ],
+        "memberOf": [],
+        "ownerOf": [
+            "codecaptain"
+        ]
+    },
+    {
+        "username": "jackson",
+        "firstName": "Jackson",
+        "lastName": "Pollock",
+        "email": "jackson@pollockj.com",
+        "interestedIn": [
+            "codecaptain",
+            "rockband"
+
+        ],
+        "memberOf": [
+            "fakeproject"
+        ],
+        "ownerOf": []
+    },
+    {
+        "username": "jane",
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "email": "janedoe@gmail.com",
+        "interestedIn": [
+            "codecaptain",
+            "teamcaptain",
+            "rockband"
+        ],
+        "memberOf": [
+            "codecaptain",
+            "rockband"
+        ],
+        "ownerOf": [
+            "teamcaptain"
+        ]
+    },
+    {
+        "username": "brad",
+        "firstName": "Bradley",
+        "lastName": "Smith",
+        "email": "",
+        "interestedIn": [
+            "codecaptain",
+            "teamcaptain"
+        ],
+        "memberOf": [
+            "rockband",
+            "fakeproject"
+        ],
+        "ownerOf": []
+    },
+    {
+        "username": "testuser1",
+        "firstName": "Tess",
+        "lastName": "U.",
+        "email": "",
+        "interestedIn": [
+            "codecaptain",
+            "testproject5"
+        ],
+        "memberOf": [
+            "codecaptain",
+            "teamcaptain",
+            "testproject5"
+        ],
+        "ownerOf": []
+    },
+    {
+        "username": "testuser2",
+        "firstName": "T",
+        "lastName": "J",
+        "email": "",
+        "interestedIn": [
+            "testproject5"
+        ],
+        "memberOf": [
+            "testproject5"
+        ],
+        "ownerOf": []
+    },
+    {
+        "username": "testuser3",
+        "firstName": "Terry",
+        "lastName": "Crews",
+        "email": "",
+        "interestedIn": [
+        ],
+        "memberOf": [
+            "codecaptain",
+            "teamcaptain",
+            "rockband",
+            "fakeproject",
+            "testproject1",
+            "testproject2",
+            "testproject3",
+            "testproject4",
+            "testproject5"
+        ],
+        "ownerOf": []
+    },
+    {
+        "username": "testuser4",
+        "firstName": "Taylor",
+        "lastName": "Swift",
+        "email": "",
+        "interestedIn": [
+            "codecaptain",
+            "teamcaptain",
+            "rockband",
+            "fakeproject",
+            "testproject1",
+            "testproject2",
+            "testproject3",
+            "testproject4",
+            "testproject5"
+        ],
+        "memberOf": [],
+        "ownerOf": []
+    },
+    {
+        "username": "testuser5",
+        "firstName": "T",
+        "lastName": "Pain",
+        "email": "",
+        "interestedIn": [
+            "codecaptain",
+            "teamcaptain",
+            "rockband"
+        ],
+        "memberOf": [
+            "codecaptain",
+            "teamcaptain",
+            "rockband"
+        ],
+        "ownerOf": []
+    }
+]

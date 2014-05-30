@@ -28,3 +28,14 @@
   content: "";
   padding: 0;
 }
+
+.nav>li>a.login {
+    font-weight: bold;
+    padding: 9px 15px !important;
+    border: 1px solid #428bca;
+}
+
+.nav>li>a.login:hover {
+    background-color: #428bca;
+    color: #ffffff;
+}

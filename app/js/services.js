@@ -2,54 +2,27 @@
 
 /* Services */
 
-
 // Demonstrate how to register services
 // In this case it is a simple value service.
 angular.module('myApp.services', [])
     .value('version', '0.1')
-    .service('userSvc', function(){
-        // Username is unique id
-        // Email can be set to anything
-        // Projects are the ones the user is interested in
-        // Owner is the project the user is sponsoring
-        var _users = [
-            {
-                username: 'joshua',
-                firstName: 'Joshua',
-                lastName: 'Hutt',
-                email: 'joshua@huttj.com',
-                interestedIn: [
-                    'codecaptain',
-                ],
-                memberOf: [],
-                ownerOf: 'codecaptain'
-            },
-            {
-                username: 'jackson',
-                firstName: 'Jackson',
-                lastName: 'Pollock',
-                email: 'jackson@pollockj.com',
-                interestedIn: [
-                    'codecaptain'
-                ],
-                memberOf: [],
-                ownerOf: null
-            },
-            {
-                username: 'jane',
-                firstName: 'Jane',
-                lastName: 'Doe',
-                email: 'janedoe@gmail.com',
-                interestedIn: [
-                    'codecaptain',
-                    'teamcaptain'
-                ],
-                memberOf: [
-                    'codecaptain'
-                ],
-                ownerOf: 'teamcaptain'
+    .service('userSvc', function($http){
+
+        var _users = [];
+
+        this.load = function() {
+            return $http.get('../test/data/users.json').success(function(data) {
+                _users = data;
+            });
+        };
+
+        this.init = function() {
+            if (!_users.length) {
+                return this.load();
             }
-        ];
+            return true;
+        }
+
         this.getUser = function(username){
             for (var i = 0; i < _users.length; i++) {
                 if (_users[i].username === username) {
@@ -61,7 +34,7 @@ angular.module('myApp.services', [])
         this.userExists = function(name) {
             return !!this.getUser(username);
         };
-        this.getOwnedProject = function(username) {
+        this.getOwnedProjects = function(username) {
             var user = this.getUser(username);
             return user ? user.ownerOf : null;
         };
@@ -95,23 +68,23 @@ angular.module('myApp.services', [])
             return list;
         }
     })
-    .service('projectSvc', function(){
-        var _projects = [
-            {
-                title: 'Code Captain',
-                shortname: 'codecaptain',
-                description: 'Code Captain is a tool to help coders build and pick teams.',
-                owner: 'joshua',
-                creator: 'joshua'
-            },
-            {
-                title: 'Team Captain',
-                shortname: 'teamcaptain',
-                description: 'A fork of Code Captain for teams of all kinds.',
-                owner: 'jane',
-                creator: 'jackson'
+    .service('projectSvc', function($http){
+
+        var _projects = [];
+
+        this.load = function() {
+            return $http.get('../test/data/projects.json').success(function(data) {
+                _projects = data;
+            });
+        };
+
+        this.init = function() {
+            if (!_projects.length) {
+                return this.load();
             }
-        ];
+            return true;
+        }
+
         this.getProject = function(shortname){
             for (var i = 0; i < _projects.length; i++) {
                 if (_projects[i].shortname === shortname) {
@@ -137,5 +110,9 @@ angular.module('myApp.services', [])
                 list.push(_projects[i]);
             }
             return list;
+        };
+        this.getProjectTitle = function(shortname) {
+            var project = this.getProject(shortname);
+            return project.title;
         }
     });

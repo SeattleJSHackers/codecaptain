@@ -1,22 +1,29 @@
-<h2>{{ user.username }}</h2>
-<h3 style="color: #666666; margin: .5em 0 1.25em;" ng-show="user.firstName && user.lastName"><em>{{ user.firstName + ' ' + user.lastName}}</em></h3>
-
-<h3>Email:</h3>
-<p><a href="mailto:{{user.email}}">{{ user.email }}</a></p>
-
 <div class="row">
-    <div class="col-md-4">
-        <h3>Following:</h3>
-        <div ng-show="user.interestedIn">
-            <ul>
-                <li ng-repeat="project in user.interestedIn"><a href="#/project/{{project}}">{{ project }}</a></li>
-            </ul>
-        </div>
-        <p ng-show="!user.interestedIn">{{ user.username }} is not following any projects</p>
+    <div class="col-sm-12">
+        <h2>{{ user.username }}</h2>
+
+        <h3 style="color: #666666; margin: .5em 0 1.25em;" ng-show="user.firstName && user.lastName"><em>{{
+            user.firstName +
+            ' ' + user.lastName}}</em></h3>
+
+        <h3>Email:</h3>
+
+        <p><a href="mailto:{{user.email}}">{{ user.email }}</a></p>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-sm-4"><h3>Owner of:</h3>
+
+        <div ng-show="user.ownerOf.length">
+            <ul>
+                <li ng-repeat="project in user.ownerOf"><a href="#/project/{{project}}">{{ getProjectTitle(project) }}</a></li>
+            </ul>
+        </div>
+        <p ng-show="!user.ownerOf.length">{{ user.username }} does not own any projects</p>
+    </div>
+
+    <div class="col-sm-4">
         <h3>Member of:</h3>
+
         <div ng-show="user.memberOf">
             <ul>
                 <li ng-repeat="project in user.memberOf"><a href="#/project/{{project}}">{{ project }}</a></li>
@@ -25,12 +32,15 @@
         <p ng-show="user.memberOf.length==0">{{ user.username }} is not a member of any projects</p>
     </div>
 
-    <div class="col-md-4"><h3>Owner of:</h3>
-        <div ng-show="user.ownerOf">
+    <div class="col-sm-4">
+        <h3>Following:</h3>
+
+        <div ng-show="user.interestedIn">
             <ul>
-                <li><a href="#/project/{{user.ownerOf}}">{{ user.ownerOf }}</a></li>
+                <li ng-repeat="project in user.interestedIn"><a href="#/project/{{project}}">{{ getProjectTitle(project) }}</a></li>
             </ul>
         </div>
-        <p ng-show="!user.ownerOf">{{ user.username }} is not a project owner</p>
+        <p ng-show="!user.interestedIn">{{ user.username }} is not following any projects</p>
     </div>
+
 </div>

@@ -1,0 +1,65 @@
+[
+    {
+         "title": "Code Captain",
+         "shortname": "codecaptain",
+         "description": "Code Captain is a tool to help coders build and pick teams.",
+         "owner": "joshua",
+         "creator": "joshua"
+    },
+    {
+        "title": "Team Captain",
+        "shortname": "teamcaptain",
+        "description": "A fork of Code Captain for teams of all kinds.",
+        "owner": "jane",
+        "creator": "jackson"
+    },
+    {
+        "title": "Rock Band",
+        "shortname": "rockband",
+        "description": "A secret music project for cool people.",
+        "owner": null,
+        "creator": "brad"
+    },
+    {
+        "title": "Fake Project",
+        "shortname": "fakeproject",
+        "description": "Just an example project to get things started.",
+        "owner": "jane",
+        "creator": "brad"
+    },
+    {
+        "title": "Test Project 1",
+        "shortname": "testproject1",
+        "description": "Just an example project to get things started.",
+        "owner": "",
+        "creator": "joshua"
+    },
+    {
+        "title": "Test Project 2",
+        "shortname": "testproject2",
+        "description": "Just an example project to get things started.",
+        "owner": "",
+        "creator": "joshua"
+    },
+    {
+        "title": "Test Project 3",
+        "shortname": "testproject3",
+        "description": "Just an example project to get things started.",
+        "owner": "",
+        "creator": "joshua"
+    },
+    {
+        "title": "Test Project 4",
+        "shortname": "testproject4",
+        "description": "Just an example project to get things started.",
+        "owner": "",
+        "creator": "joshua"
+    },
+    {
+        "title": "Test Project 5",
+        "shortname": "testproject5",
+        "description": "Just an example project to get things started.",
+        "owner": "",
+        "creator": "joshua"
+    }
+]
