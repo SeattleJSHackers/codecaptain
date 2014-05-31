@@ -1,4 +1,4 @@
-[
+"projects": {[
     {
          "title": "Code Captain",
          "shortname": "codecaptain",
@@ -62,4 +62,4 @@
         "owner": "",
         "creator": "joshua"
     }
-]
+]}
