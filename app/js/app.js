@@ -17,19 +17,19 @@ config(['$routeProvider', function($routeProvider) {
       templateUrl: 'partials/user.html',
       controller: 'UserCtrl'
     });
-    $routeProvider.when('new/user', {
+    $routeProvider.when('/new/user', {
       templateUrl: 'partials/newuser.html',
       controller: 'NewUserCtrl'
     });
-    $routeProvider.when('new/project', {
+    $routeProvider.when('/new/project', {
         templateUrl: 'partials/newproject.html',
         controller: 'NewProjectCtrl'
     });
-    $routeProvider.when('edit/user', {
+    $routeProvider.when('/edit/user', {
         templateUrl: 'partials/edituser.html',
         controller: 'EditUserCtrl'
     });
-    $routeProvider.when('edit/project', {
+    $routeProvider.when('/edit/project', {
         templateUrl: 'partials/editproject.html',
         controller: 'EditProjectCtrl'
     });
@@ -40,6 +40,10 @@ config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/users', {
         templateUrl: 'partials/allusers.html',
         controller: 'OverviewCtrl'
+    });
+    $routeProvider.when('/login', {
+        templateUrl: 'partials/login.html',
+        controller: 'LoginCtrl'
     });
     $routeProvider.otherwise({
         templateUrl: 'partials/overview.html',

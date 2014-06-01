@@ -2,40 +2,51 @@
 
 /* Services */
 
+var temp;
+
 // Demonstrate how to register services
 // In this case it is a simple value service.
 angular.module('myApp.services', [])
     .value('version', '0.1')
     .service('dbSvc', function(){
-        this.d = new Firebase('https://blinding-fire-1366.firebaseio.com/');
+        this.users = new Firebase('https://blinding-fire-1366.firebaseio.com/users');
+        this.projects = new Firebase('https://blinding-fire-1366.firebaseio.com/projects');
+    })
+    .service('authSvc', function ($q, userSvc) {
+        var self = this;
+        self.loggedIn = false;
+        self.username = '';
+        self.notifier = $q.defer();
+
+        self.login = function(username, email) {
+            var user = userSvc.getUser(username);
+            if (user && (user.email = email)) {
+                self.loggedIn = true;
+                self.username = username;
+            }
+            self.notifier.notify();
+        }
+
+        self.logout = function() {
+            self.loggedIn = false;
+            self.username = '';
+            self.notifier.notify();
+        }
+        temp = self;
     })
     .service('userSvc', function($http, $q, dbSvc){
 
         var _users = [];
         var _loaded = $q.defer();
 
-//        this.load = function() {
-//            return $http.get('../test/data/users.json').success(function(data) {
-//                _users = data;
-//            });
-//        };
-
-        dbSvc.d.on('value', function(snapshot) {
-            _users = snapshot.val().users;
-            _loaded.resolve();
-            console.log(_users);
+        dbSvc.users.on('value', function(snapshot) {
+            _users = snapshot.val();
+            _loaded.notify();
         });
 
         this.init = function() {
-            return _loaded;
+            return _loaded.promise;
         };
-
-//        this.init = function() {
-//            if (!_users.length) {
-//                return this.load();
-//            }
-//            return true;
-//        }
 
         this.getUser = function(username){
             for (var i = 0; i < _users.length; i++) {
@@ -54,12 +65,13 @@ angular.module('myApp.services', [])
         };
         this.getProjectFollowers = function(shortname) {
             var users = [];
+
             for (var i = 0; i<_users.length; i++) {
-                for (var j = 0; j < _users[i].interestedIn.length; j++ ) {
-                    if (_users[i].interestedIn) {
-                        if (_users[i].interestedIn[j] === shortname) {
-                            users.push(_users[i].username);
-                        }
+                if (_users[i].interestedIn) {
+                    for (var j = 0; j < _users[i].interestedIn.length; j++ ) {
+                            if (_users[i].interestedIn[j] === shortname) {
+                                users.push(_users[i].username);
+                            }
                     }
                 }
             }
@@ -85,33 +97,28 @@ angular.module('myApp.services', [])
             }
             return list;
         }
+
+        this.addUser = function(user) {
+            if (user && user.username && !this.getUser(user.username)) {
+                var index = _users ? _users.length : 0;
+                dbSvc.users.child(''+index).set(user);
+            }
+        }
+
     })
     .service('projectSvc', function($http, $q, dbSvc){
 
         var _projects = [];
         var _loaded = $q.defer();
 
-        dbSvc.d.on('value', function(snapshot) {
-            _projects = snapshot.val().projects;
-            _loaded.resolve();
+        dbSvc.projects.on('value', function(snapshot) {
+            _projects = snapshot.val();
+            _loaded.notify();
         });
 
         this.init = function() {
-            return _loaded;
+            return _loaded.promise;
         };
-
-//        this.load = function() {
-//            return $http.get('../test/data/projects.json').success(function(data) {
-//                _projects = data;
-//            });
-//        };
-//
-//        this.init = function() {
-//            if (!_projects.length) {
-//                return this.load();
-//            }
-//            return true;
-//        }
 
         this.getProject = function(shortname){
             for (var i = 0; i < _projects.length; i++) {

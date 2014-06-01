@@ -32,9 +32,10 @@
                     <li ng-class="{active: active('/projects')}"><a href="#/projects">All Projects</a></li>
                     <li ng-class="{active: active('/users')}"><a href="#/users">All Users</a></li>
                     <li class="nav-divider"></li>
-                    <li ng-class="{active: active('/new/project')}" ng-show="loggedIn"><a href="#">New Project</a></li>
+                    <li ng-class="{active: active('/new/project')}" ng-show="loggedIn"><a href="#/">New Project</a></li>
                     <li ng-class="{active: active('/login')}" ng-show="!loggedIn"><a href="#/login">Log In</a></li>
                     <li ng-class="{active: active('/new/user')}" ng-show="!loggedIn"><a href="#/new/user" class="login">Join</a></li>
+                    <li ng-show="loggedIn"><a href="#/" ng-click="logout()">Log Out</a></li>
                 </ul>
             </div>
             <div class="col-sm-12">
