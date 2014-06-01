@@ -25,7 +25,30 @@ angular.module('myApp.controllers', [])
         // Add data when the page is opened with the model already created
         update();
     })
-    .controller('ProjectCtrl', function($scope, $q, $routeParams, projectSvc, userSvc) {
+    .controller('ProjectCtrl', function($scope, $q, $routeParams, projectSvc, userSvc, authSvc) {
+        $scope.currentUser = authSvc.username;
+        $scope.isFollowing = function() {
+            return userSvc.isFollowing($scope.currentUser, $scope.project.shortname);
+        }
+        $scope.isMember = function() {
+            return userSvc.isMember($scope.currentUser, $scope.project.shortname);
+        };
+
+        $scope.follow = function() {
+            if ($scope.isFollowing()) {
+                userSvc.unfollow($scope.currentUser, $scope.project.shortname);
+            } else {
+                userSvc.follow($scope.currentUser, $scope.project.shortname);
+            }
+        }
+
+        $scope.join = function() {
+            if ($scope.isMember()) {
+                userSvc.unjoin($scope.currentUser, $scope.project.shortname);
+            } else {
+                userSvc.join($scope.currentUser, $scope.project.shortname);
+            }
+        }
 
         var update = function() {
             $scope.project = projectSvc.getProject($routeParams.shortname);
@@ -40,20 +63,19 @@ angular.module('myApp.controllers', [])
 
         update();
     })
-    .controller('UserCtrl', function($scope, $q, $routeParams, userSvc, projectSvc) {
+    .controller('UserCtrl', function($scope, $q, $routeParams, userSvc, projectSvc, authSvc) {
         var update = function() {
             $scope.user = userSvc.getUser($routeParams.username);
             $scope.getProjectTitle = function (shortname) {
                 return projectSvc.getProjectTitle(shortname);
             };
         }
+        $scope.currentUser = authSvc.username;
         projectSvc.init().then(null, null, update);
         userSvc.init().then(null, null, update);
         update();
     })
     .controller('NewUserCtrl', function($scope, $location, userSvc, authSvc) {
-        // temp.user = $scope.user;
-
         $scope.addUser = function() {
             if ($scope.user && $scope.user.username && $scope.user.email) {
                 userSvc.addUser($scope.user);
@@ -62,14 +84,44 @@ angular.module('myApp.controllers', [])
             }
         }
     })
-    .controller('NewProjectCtrl', function($scope) {
-
+    .controller('NewProjectCtrl', function($scope, $location, authSvc, projectSvc) {
+        $scope.addProject = function() {
+            if ($scope.project && $scope.project.shortname && $scope.project.title) {
+                $scope.project.creator = authSvc.username;
+                projectSvc.addProject($scope.project);
+                $location.path('/project/' + $scope.project.shortname);
+            }
+        }
     })
-    .controller('EditUserCtrl', function($scope) {
+    .controller('EditUserCtrl', function($scope, $routeParams, $location, userSvc, authSvc) {
+        if ($routeParams.username !== authSvc.username) {
+            $location.path('/');
+        }
 
+        $scope.user = userSvc.getUser($routeParams.username);
+
+        $scope.editUser = function() {
+            if ($scope.user && $scope.user.username && $scope.user.email) {
+                userSvc.editUser($scope.user);
+                $location.path('/user/' + $scope.user.username);
+            }
+        }
     })
-    .controller('EditProjectCtrl', function($scope) {
+    .controller('EditProjectCtrl', function($scope, $routeParams, $location, projectSvc, authSvc) {
+        var project = projectSvc.getProject($routeParams.shortname);
 
+        if (!project || (project.owner !== authSvc.username && project.creator !== authSvc.username) ) {
+            $location.path('/');
+        }
+
+        $scope.project = project;
+
+        $scope.editProject = function() {
+            if ($scope.project && $scope.project.shortname && $scope.project.title) {
+                projectSvc.editProject($scope.project);
+                $location.path('/project/' + $scope.project.shortname);
+            }
+        }
     })
     .controller('LoginCtrl', function($scope, $location, authSvc) {
         $scope.login = function() {
@@ -87,6 +139,7 @@ angular.module('myApp.controllers', [])
 
         authSvc.notifier.promise.then(null, null, function() {
             $scope.loggedIn = authSvc.loggedIn;
+            $scope.currentUser = authSvc.username;
         });
 
         $scope.logout = function() {

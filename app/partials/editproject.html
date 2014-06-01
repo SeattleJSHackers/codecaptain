@@ -1,0 +1,21 @@
+<div class="col-md-6 col-md-offset-3">
+    <h2>Edit Project</h2>
+    <form>
+        <div class="form-group">
+            <label for="title">Project title:</label>
+            <input type="text" class="form-control" id="title" ng-model="project.title"/>
+        </div>
+
+        <div class="form-group">
+            <label for="shortname">Short name:</label>
+            <input type="text" class="form-control" id="shortname" ng-model="project.shortname" disabled />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" ng-model="project.description"></textarea>
+        </div>
+
+        <button class="btn btn-primary" ng-click="editProject()" type="submit">Save</button>
+    </form>
+</div>

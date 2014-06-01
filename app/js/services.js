@@ -35,7 +35,7 @@ angular.module('myApp.services', [])
         temp = self;
     })
     .service('userSvc', function($http, $q, dbSvc){
-
+        var self = this;
         var _users = [];
         var _loaded = $q.defer();
 
@@ -44,11 +44,11 @@ angular.module('myApp.services', [])
             _loaded.notify();
         });
 
-        this.init = function() {
+        self.init = function() {
             return _loaded.promise;
         };
 
-        this.getUser = function(username){
+        self.getUser = function(username){
             for (var i = 0; i < _users.length; i++) {
                 if (_users[i].username === username) {
                     return _users[i];
@@ -56,14 +56,24 @@ angular.module('myApp.services', [])
             }
             return null;
         };
-        this.userExists = function(name) {
-            return !!this.getUser(username);
+
+        self.getUserIndex = function(username){
+            for (var i = 0; i < _users.length; i++) {
+                if (_users[i].username === username) {
+                    return i;
+                }
+            }
+            return null;
         };
-        this.getOwnedProjects = function(username) {
-            var user = this.getUser(username);
+
+        self.userExists = function(name) {
+            return !!self.getUser(username);
+        };
+        self.getOwnedProjects = function(username) {
+            var user = self.getUser(username);
             return user ? user.ownerOf : null;
         };
-        this.getProjectFollowers = function(shortname) {
+        self.getProjectFollowers = function(shortname) {
             var users = [];
 
             for (var i = 0; i<_users.length; i++) {
@@ -77,7 +87,7 @@ angular.module('myApp.services', [])
             }
             return users;
         };
-        this.getProjectMembers = function(shortname) {
+        self.getProjectMembers = function(shortname) {
             var users = [];
             for (var i = 0; i<_users.length; i++) {
                 if (_users[i].memberOf) {
@@ -90,7 +100,7 @@ angular.module('myApp.services', [])
             }
             return users;
         };
-        this.getUserList = function() {
+        self.getUserList = function() {
             var list = [];
             for (var i = 0; i < _users.length; i++) {
                 list.push(_users[i]);
@@ -98,10 +108,95 @@ angular.module('myApp.services', [])
             return list;
         }
 
-        this.addUser = function(user) {
-            if (user && user.username && !this.getUser(user.username)) {
+        self.addUser = function(user) {
+            if (user && user.username && !self.getUser(user.username)) {
                 var index = _users ? _users.length : 0;
                 dbSvc.users.child(''+index).set(user);
+            }
+        }
+
+        self.editUser = function(user) {
+            console.log(user);
+            if (user && user.username && self.getUser(user.username)) {
+                var index = self.getUserIndex(user.username);
+                if(user.hasOwnProperty('$$hashKey')) {
+                    delete user.$$hashKey
+                }
+                if (index !== null) {
+                    dbSvc.users.child('' + index).set(user);
+                }
+            }
+        }
+
+        self.isFollowing = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && user.interestedIn) {
+                for (var i = 0; i < user.interestedIn.length; i++) {
+                    if (user.interestedIn[i] === shortname) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        self.isMember = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && user.memberOf) {
+                for (var i = 0; i < user.memberOf.length; i++) {
+                    if (user.memberOf[i] === shortname) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        self.follow = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && !self.isFollowing(username, shortname)) {
+                if (user.interestedIn) {
+                    user.interestedIn.push(shortname);
+                } else {
+                    user.interestedIn = [shortname];
+                }
+                self.editUser(user);
+            }
+        }
+
+        self.unfollow = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && self.isFollowing(username, shortname)) {
+                for (var i=0; i<user.interestedIn.length; i++) {
+                    if (user.interestedIn[i] === shortname) {
+                        user.interestedIn.splice(i,1)
+                    }
+                }
+                self.editUser(user);
+            }
+        }
+
+        self.join = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && !self.isMember(username, shortname)) {
+                if (user.memberOf) {
+                    user.memberOf.push(shortname);
+                } else {
+                    user.memberOf = [shortname];
+                }
+                self.editUser(user);
+            }
+        }
+
+        self.unjoin = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && self.isMember(username, shortname)) {
+                for (var i=0; i<user.memberOf.length; i++) {
+                    if (user.memberOf[i] === shortname) {
+                        user.memberOf.splice(i,1)
+                    }
+                }
+                self.editUser(user);
             }
         }
 
@@ -128,6 +223,16 @@ angular.module('myApp.services', [])
             }
             return null;
         };
+
+        this.getProjectIndex = function(shortname){
+            for (var i = 0; i < _projects.length; i++) {
+                if (_projects[i].shortname === shortname) {
+                    return i;
+                }
+            }
+            return null;
+        };
+
         this.projectExists = function(name) {
             return !!this.getProject(shortname);
         };
@@ -150,4 +255,37 @@ angular.module('myApp.services', [])
             var project = this.getProject(shortname);
             return project.title;
         }
+
+        this.addProject = function(project) {
+            if (project && project.shortname && !this.getProject(project.shortname)) {
+                var index = _projects ? _projects.length : 0;
+                dbSvc.projects.child(''+index).set(project);
+            }
+        }
+
+        this.editProject = function(project) {
+            if (project && project.shortname && this.getProject(project.shortname)) {
+                var index = this.getProjectIndex(project.shortname);
+                if (project.hasOwnProperty('$$hashKey')) {
+                    delete project.$$hashKey;
+                }
+                if (index !== null) {
+                    dbSvc.projects.child('' + index).set(project);
+                }
+            }
+        }
+
+        this.setOwner = function(shortname, username) {
+            var project = this.getProject(shortname);
+
+            if (project) {
+                project.owner = username;
+            }
+
+            var index = this.getProjectIndex(user.username);
+            if (index) {
+                dbSvc.projects.child('' + index).set(project);
+            }
+        }
+
     });

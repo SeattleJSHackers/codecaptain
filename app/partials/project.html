@@ -1,7 +1,26 @@
-<h2>{{ project.title }}</h2>
-<h3 style="color: #666666; margin: .5em 0 1.25em;"><em>{{ project.shortname }}</em></h3>
-<h3>Description:</h3>
-<p>{{ project.description }}</p>
+<div class="row">
+    <div class="col-md-9">
+        <h2>{{ project.title }}</h2>
+
+        <h3 style="color: #666666; margin: .5em 0 1.25em;"><em>{{ project.shortname }}</em></h3>
+    </div>
+    <div class="col-sm-3">
+        <div class="pull-right">
+            <a class="btn btn-default" href="#/edit/project/{{ project.shortname }}"
+                                    ng-show="currentUser !== '' && (project.creator === currentUser || project.owner === currentUser)">Edit</a>
+
+            <a class="btn" ng-class="{'btn-primary': isMember(), 'btn-default': !isMember()}"
+               href="" ng-show="currentUser !== ''" ng-click="join()"><span ng-show="!isMember()">Join</span><span ng-show="isMember()">Joined</span></a>
+
+            <a class="btn" ng-class="{'btn-primary': isFollowing(), 'btn-default': !isFollowing()}"
+               href="" ng-show="currentUser !== ''" ng-click="follow()"><span ng-show="!isFollowing()">Follow</span><span ng-show="isFollowing()">Following</span></a>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <h3>Description:</h3>
+        <p>{{ project.description }}</p>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-3 col-sm-6">

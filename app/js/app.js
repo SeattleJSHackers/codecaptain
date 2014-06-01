@@ -25,11 +25,11 @@ config(['$routeProvider', function($routeProvider) {
         templateUrl: 'partials/newproject.html',
         controller: 'NewProjectCtrl'
     });
-    $routeProvider.when('/edit/user', {
+    $routeProvider.when('/edit/user/:username', {
         templateUrl: 'partials/edituser.html',
         controller: 'EditUserCtrl'
     });
-    $routeProvider.when('/edit/project', {
+    $routeProvider.when('/edit/project/:shortname', {
         templateUrl: 'partials/editproject.html',
         controller: 'EditProjectCtrl'
     });
