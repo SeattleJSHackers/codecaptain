@@ -12,4 +12,8 @@
         </div>
         <button type="submit" class="btn btn-primary" ng-click="login()">Log In</button>
     </form>
+    <br/>
+    <div class="alert alert-danger" ng-show="invalid">
+        <p>Username or email is incorrect.</p>
+    </div>
 </div>

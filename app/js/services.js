@@ -20,7 +20,7 @@ angular.module('myApp.services', [])
 
         self.login = function(username, email) {
             var user = userSvc.getUser(username);
-            if (user && (user.email = email)) {
+            if (user && (user.email === email)) {
                 self.loggedIn = true;
                 self.username = username;
             }
@@ -269,6 +269,20 @@ angular.module('myApp.services', [])
                 if (project.hasOwnProperty('$$hashKey')) {
                     delete project.$$hashKey;
                 }
+
+                if (project.hasOwnProperty('comments')) {
+                    var comments = project.comments;
+                    for (var i = 0; i < comments.length; i++) {
+                        if (comments[i].hasOwnProperty('$$hashKey')) {
+                            delete comments[i].$$hashKey;
+                        }
+                    }
+
+                    if (comments.hasOwnProperty('$hashKey')) {
+                        delete comments.$$hashKey;
+                    }
+                }
+
                 if (index !== null) {
                     dbSvc.projects.child('' + index).set(project);
                 }
@@ -311,16 +325,6 @@ angular.module('myApp.services', [])
                 comments.push(comment);
             } else {
                 comments = [comment];
-            }
-
-            for (var i=0; i<comments.length; i++) {
-                if (comments[i].hasOwnProperty('$$hashKey')) {
-                    delete comments[i].$$hashKey;
-                }
-            }
-
-            if (comments.hasOwnProperty('$hashKey')) {
-                delete comments.$$hashKey;
             }
 
             project.comments = comments;

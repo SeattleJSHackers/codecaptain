@@ -56,8 +56,8 @@ angular.module('myApp.controllers', [])
             }
         }
 
-        $scope.deleteComment = function(username, date, shortname) {
-            projectSvc.deleteComment(username, date, shortname);
+        $scope.deleteComment = function(date, shortname) {
+            projectSvc.deleteComment($scope.currentUser, date, shortname);
         }
 
         var update = function() {
@@ -135,10 +135,14 @@ angular.module('myApp.controllers', [])
     })
     .controller('LoginCtrl', function($scope, $location, authSvc) {
         $scope.login = function() {
+            $scope.invalid = false;
             if ($scope.user && $scope.user.username && $scope.user.email) {
                 authSvc.login($scope.user.username, $scope.user.email);
-                $location.path('/user/' + $scope.user.username);
+                if (authSvc.loggedIn) {
+                    $location.path('/user/' + $scope.user.username);
+                }
             }
+            $scope.invalid = true;
         }
     })
     .controller('AddCommentCtrl', function($scope, $location, $routeParams, authSvc, projectSvc) {

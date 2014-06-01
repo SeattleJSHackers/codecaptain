@@ -30,7 +30,7 @@
                 <h4><strong>{{comment.title}}</strong></h4>
                 <p>{{comment.body}}</p>
                 <p><a href="#/user/{{comment.author}}">{{comment.author}}</a> on {{comment.date}}</p>
-                <a class="btn btn-default btn-small" href="" ng-show="currentUser === comment.author" ng-click="deleteComment(comment.author, comment.date, project.shortname)">Delete</a>
+                <a class="btn btn-default btn-sm" href="" ng-show="currentUser === comment.author" ng-click="deleteComment(comment.date, project.shortname)">Delete</a>
                 <hr/>
             </div>
         </div>
