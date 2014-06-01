@@ -9,6 +9,10 @@ angular.module('myApp', [
   'myApp.controllers'
 ]).
 config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/project/:shortname/addcomment', {
+        templateUrl: 'partials/addcomment.html',
+        controller: 'AddCommentCtrl'
+    })
     $routeProvider.when('/project/:shortname', {
       templateUrl: 'partials/project.html',
       controller: 'ProjectCtrl'

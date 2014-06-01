@@ -288,4 +288,69 @@ angular.module('myApp.services', [])
             }
         }
 
+        this.getComments = function(shortname) {
+            var project = this.getProject(shortname);
+            return project ? project.comments : null;
+        }
+
+        this.getCommentIndex = function(username, date, shortname) {
+            var comments = this.getComments(shortname);
+            for (var i = 0; i<comments.length; i++) {
+                if (comments[i].date === date && comments[i].author === username) {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        this.addComment = function(comment, shortname) {
+            var project = this.getProject(shortname);
+            var comments = this.getComments(shortname);
+
+            if (comments) {
+                comments.push(comment);
+            } else {
+                comments = [comment];
+            }
+
+            for (var i=0; i<comments.length; i++) {
+                if (comments[i].hasOwnProperty('$$hashKey')) {
+                    delete comments[i].$$hashKey;
+                }
+            }
+
+            if (comments.hasOwnProperty('$hashKey')) {
+                delete comments.$$hashKey;
+            }
+
+            project.comments = comments;
+
+            this.editProject(project);
+
+        }
+
+        this.deleteComment = function(username, date, shortname) {
+            var index = this.getCommentIndex(username, date, shortname);
+            if (index !== null) {
+                var comments = this.getComments(shortname);
+                comments.splice(index, 1);
+
+                var project = this.getProject(shortname);
+                project.comments = comments;
+
+                for (var i=0; i<comments.length; i++) {
+                    if (comments[i].hasOwnProperty('$$hashKey')) {
+                        delete comments[i].$$hashKey;
+                    }
+                }
+
+                if (comments.hasOwnProperty('$hashKey')) {
+                    delete comments.$$hashKey;
+                }
+
+                this.editProject(project);
+            }
+
+        }
+
     });

@@ -28,9 +28,15 @@ angular.module('myApp.controllers', [])
     .controller('ProjectCtrl', function($scope, $q, $routeParams, projectSvc, userSvc, authSvc) {
         $scope.currentUser = authSvc.username;
         $scope.isFollowing = function() {
+            if ($scope.project === null) {
+                return false;
+            }
             return userSvc.isFollowing($scope.currentUser, $scope.project.shortname);
         }
         $scope.isMember = function() {
+            if ($scope.project === null) {
+                return false;
+            }
             return userSvc.isMember($scope.currentUser, $scope.project.shortname);
         };
 
@@ -48,6 +54,10 @@ angular.module('myApp.controllers', [])
             } else {
                 userSvc.join($scope.currentUser, $scope.project.shortname);
             }
+        }
+
+        $scope.deleteComment = function(username, date, shortname) {
+            projectSvc.deleteComment(username, date, shortname);
         }
 
         var update = function() {
@@ -130,6 +140,20 @@ angular.module('myApp.controllers', [])
                 $location.path('/user/' + $scope.user.username);
             }
         }
+    })
+    .controller('AddCommentCtrl', function($scope, $location, $routeParams, authSvc, projectSvc) {
+        var project = $routeParams.shortname;
+        $scope.comments = projectSvc.getComments(project);
+
+        $scope.addComment = function() {
+            if($scope.comment && authSvc.loggedIn) {
+                $scope.comment.author = authSvc.username;
+                $scope.comment.date = new Date() + '';
+                projectSvc.addComment($scope.comment, project)
+            }
+            $location.path('/project/' + project)
+        }
+
     })
     .controller('MenuCtrl', function($scope, $location, $q, authSvc) {
         $scope.active = function(path) {
