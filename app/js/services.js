@@ -108,6 +108,15 @@ angular.module('myApp.services', [])
             return list;
         }
 
+        self.getUsernameList = function () {
+            var users = self.getUserList(),
+                usernameList = [];
+            for (var i=0; i<users.length; i++)  {
+                usernameList[i] = users[i].username;
+            }
+            return usernameList;
+        }
+
         self.addUser = function(user) {
             if (user && user.username && !self.getUser(user.username)) {
                 var index = _users ? _users.length : 0;
@@ -145,6 +154,18 @@ angular.module('myApp.services', [])
             if (user && user.memberOf) {
                 for (var i = 0; i < user.memberOf.length; i++) {
                     if (user.memberOf[i] === shortname) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        self.isOwner = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && user.ownerOf) {
+                for (var i = 0; i < user.ownerOf.length; i++) {
+                    if (user.ownerOf[i] === shortname) {
                         return true;
                     }
                 }
@@ -194,6 +215,30 @@ angular.module('myApp.services', [])
                 for (var i=0; i<user.memberOf.length; i++) {
                     if (user.memberOf[i] === shortname) {
                         user.memberOf.splice(i,1)
+                    }
+                }
+                self.editUser(user);
+            }
+        }
+
+        self.makeOwner = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && !self.isOwner(username, shortname)) {
+                if (user.ownerOf) {
+                    user.ownerOf.push(shortname);
+                } else {
+                    user.ownerOf = [shortname];
+                }
+                self.editUser(user);
+            }
+        }
+
+        self.unmakeOwner = function(username, shortname) {
+            var user = self.getUser(username);
+            if (user && self.isOwner(username, shortname)) {
+                for (var i=0; i<user.ownerOf.length; i++) {
+                    if (user.ownerOf[i] === shortname) {
+                        user.ownerOf.splice(i,1)
                     }
                 }
                 self.editUser(user);
@@ -253,7 +298,7 @@ angular.module('myApp.services', [])
         };
         this.getProjectTitle = function(shortname) {
             var project = this.getProject(shortname);
-            return project.title;
+            return project ? project.title : shortname;
         }
 
         this.addProject = function(project) {
@@ -355,6 +400,26 @@ angular.module('myApp.services', [])
                 this.editProject(project);
             }
 
+        }
+
+        this.getCommentsByUsername = function(username) {
+            var projects = this.getProjectList();
+            var comments = [];
+            if (projects) {
+                for (var i = 0; i < projects.length; i++) {
+                    if (projects[i].comments) {
+                        for (var j = 0; j < projects[i].comments.length; j++) {
+                            if (projects[i].comments[j].author === username) {
+                                var comment = projects[i].comments[j];
+                                comment.shortname = projects[i].shortname;
+                                comment.projectTitle = projects[i].title;
+                                comments.push(comment);
+                            }
+                        }
+                    }
+                }
+            }
+            return comments;
         }
 
     });

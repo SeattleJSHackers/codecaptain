@@ -7,6 +7,11 @@
         </div>
 
         <div class="form-group">
+            <label for="shortname">Owner:</label>
+            <input type="text" class="form-control" id="owner" ng-model="project.owner" typeahead="user for user in users | filter:$viewValue | limitTo:8"/>
+        </div>
+
+        <div class="form-group">
             <label for="shortname">Short name:</label>
             <input type="text" class="form-control" id="shortname" ng-model="project.shortname" disabled />
         </div>
@@ -18,4 +23,8 @@
 
         <button class="btn btn-primary" ng-click="editProject()" type="submit">Save</button>
     </form>
+    <br/>
+    <div class="alert alert-danger" ng-show="error">
+        <p>{{error}}</p>
+    </div>
 </div>

@@ -32,7 +32,7 @@
                 <li ng-repeat="project in user.memberOf"><a href="#/project/{{project}}">{{ project }}</a></li>
             </ul>
         </div>
-        <p ng-show="user.memberOf.length==0">{{ user.username }} is not a member of any projects</p>
+        <p ng-show="!user.memberOf">{{ user.username }} is not a member of any projects</p>
     </div>
 
     <div class="col-sm-4">
@@ -44,6 +44,20 @@
             </ul>
         </div>
         <p ng-show="!user.interestedIn">{{ user.username }} is not following any projects</p>
+    </div>
+
+    <div class="col-sm-8">
+        <h3>Recent Comments</h3>
+        <div>
+            <div ng-repeat="comment in userComments | orderBy: comment.date">
+                <h4><strong>{{comment.title}}</strong></h4>
+                <p>{{comment.body}}</p>
+                <p><a href="#/user/{{comment.author}}">{{comment.author}}</a> in <a href="#/project/{{comment.shortname}}">{{ comment.projectTitle }}</a> on {{comment.date}}</p>
+                <a class="btn btn-default btn-sm" href="" ng-show="currentUser === comment.author" ng-click="deleteComment(comment.date, project.shortname)">Delete</a>
+                <hr/>
+            </div>
+        </div>
+        <p ng-show="!userComments || userComments.length === 0">{{ user.username }} has not left any comments.</p>
     </div>
 
 </div>

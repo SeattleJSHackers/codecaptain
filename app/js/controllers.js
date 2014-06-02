@@ -79,6 +79,8 @@ angular.module('myApp.controllers', [])
             $scope.getProjectTitle = function (shortname) {
                 return projectSvc.getProjectTitle(shortname);
             };
+            $scope.userComments = projectSvc.getCommentsByUsername($routeParams.username);
+            console.log($scope.userComments);
         }
         $scope.currentUser = authSvc.username;
         projectSvc.init().then(null, null, update);
@@ -117,19 +119,35 @@ angular.module('myApp.controllers', [])
             }
         }
     })
-    .controller('EditProjectCtrl', function($scope, $routeParams, $location, projectSvc, authSvc) {
+    .controller('EditProjectCtrl', function($scope, $routeParams, $location, userSvc, projectSvc, authSvc) {
         var project = projectSvc.getProject($routeParams.shortname);
 
         if (!project || (project.owner !== authSvc.username && project.creator !== authSvc.username) ) {
             $location.path('/');
         }
 
+        $scope.users = userSvc.getUsernameList();
         $scope.project = project;
+        $scope.error = null;
 
         $scope.editProject = function() {
+            $scope.error = null;
             if ($scope.project && $scope.project.shortname && $scope.project.title) {
-                projectSvc.editProject($scope.project);
-                $location.path('/project/' + $scope.project.shortname);
+                if ($scope.project.owner === '' || userSvc.getUser($scope.project.owner)) {
+                    projectSvc.editProject($scope.project);
+
+                    var oldOwner = project.owner;
+                    var newOwner = $scope.project.owner;
+
+                    userSvc.unmakeOwner(oldOwner, $scope.project.shortname);
+                    userSvc.makeOwner(newOwner, $scope.project.shortname);
+
+                    $location.path('/project/' + $scope.project.shortname);
+                } else {
+                    $scope.error = 'Owner does not exist.';
+                }
+            } else {
+                $scope.error = 'You must specify a title.';
             }
         }
     })
