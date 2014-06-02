@@ -7,11 +7,11 @@
             ' ' + user.lastName}}</em></h3>
 
     </div>
-    <div class="col-sm-1">
+    <div class="col-sm-1" style="padding-top: 30px;">
         <a href="#/edit/user/{{user.username}}" class="btn btn-default" ng-show="user.username === currentUser">Edit</a>
     </div>
 
-    <div class="col-md-9 col-sm-8">
+    <div class="col-lg-8 col-md-9 col-sm-8">
 
         <h3>Email</h3>
         <p><a href="mailto:{{user.email}}">{{ user.email }}</a></p>
@@ -28,7 +28,7 @@
         <p ng-show="!userComments || userComments.length === 0">{{ user.username }} has not left any comments.</p>
     </div>
 
-    <div class="col-md-3 col-sm-4">
+    <div class="col-lg-2 col-lg-offset-1 col-md-3 col-sm-4">
     <div>
         <h3>Owner of:</h3>
 
