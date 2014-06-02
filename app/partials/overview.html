@@ -4,9 +4,8 @@
         <ul>
             <!-- TODO: Use Angular ui.bootstrap module to add tooltips for followers and projects: http://angular-ui.github.io/bootstrap/ -->
             <li ng-repeat="project in model.projects | orderBy: 'project.followers.length':true | limitTo: 5"><a href="#/project/{{project.shortname}}">{{ project.title }}</a>
-                sponsored by
-                <a href="#/project/{{project.shortname}}">{{ project.owner }}</a> - {{project.followers.length}}
-                follower<span ng-show="project.followers.length>1">s</span></li>
+                <span ng-show="project.owner"> - sponsored by <a href="#/user/{{project.owner}}">{{ project.owner }}</a></span><span ng-show="project.owner && project.followers.length>0"> - </span><span ng-show="project.followers.length>0">{{project.followers.length}}
+                follower</span><span ng-show="project.followers.length>1">s</span></li>
         </ul>
         <p><a href="#/projects">All Projects &#187;</a></p>
     </div>
