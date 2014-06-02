@@ -153,14 +153,17 @@ angular.module('myApp.controllers', [])
     })
     .controller('LoginCtrl', function($scope, $location, authSvc) {
         $scope.login = function() {
-            $scope.invalid = false;
+            $scope.error = null;
             if ($scope.user && $scope.user.username && $scope.user.email) {
                 authSvc.login($scope.user.username, $scope.user.email);
                 if (authSvc.loggedIn) {
                     $location.path('/user/' + $scope.user.username);
+                } else {
+                    $scope.error = 'Username or password is incorrect.';
                 }
+            } else {
+                $scope.error = 'Please fill out both fields.';
             }
-            $scope.invalid = true;
         }
     })
     .controller('AddCommentCtrl', function($scope, $location, $routeParams, authSvc, projectSvc) {
