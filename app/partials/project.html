@@ -2,7 +2,7 @@
     <div class="col-md-6">
         <h2>{{ project.title }}</h2>
 
-        <h3 style="color: #666666; margin: .5em 0 1.25em;"><em>{{ project.shortname }}</em></h3>
+        <h3 style="color: #666666; margin: .5em 0 .75em;"><em>{{ project.shortname }}</em></h3>
     </div>
     <div class="col-sm-6">
         <div class="pull-right">
@@ -19,54 +19,62 @@
                href="" ng-show="currentUser !== ''" ng-click="follow()"><span ng-show="!isFollowing()">Follow</span><span ng-show="isFollowing()">Following</span></a>
         </div>
     </div>
-    <div class="col-lg-12">
-        <h3>Description</h3>
-        <p>{{ project.description }}</p>
-        <h3>Comments</h3>
-
-            <p ng-show="project.comments == null || project.comments.length == 0">There are no comments yet. <a href="#/project/{{project.shortname}}/addcomment" ng-show="currentUser !== ''">Leave one?</a></p>
-        <div class="row">
-            <div ng-repeat="comment in project.comments | orderBy: comment.date" class="col-md-7 col-sm-8">
-                <h4><strong>{{comment.title}}</strong></h4>
-                <p>{{comment.body}}</p>
-                <p><a href="#/user/{{comment.author}}">{{comment.author}}</a> on {{comment.date}}</p>
-                <a class="btn btn-default btn-sm" href="" ng-show="currentUser === comment.author" ng-click="deleteComment(comment.date, project.shortname)">Delete</a>
-                <hr/>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="row">
-    <div class="col-md-3 col-sm-6">
-        <h3>Owner</h3>
-        <ul ng-show="project.owner">
-            <li><a href="#/user/{{project.owner}}">{{ project.owner }}</a></li>
-        </ul>
-        <p ng-show="!project.owner">{{project.title}} does not have an owner</p>
+    <div class="col-md-9 col-sm-8">
+        <div>
+            <h3>Description</h3>
+            <p>{{ project.description }}</p>
+        </div>
+        <h3>Comments</h3>
+        <p ng-show="project.comments == null || project.comments.length == 0">There are no comments yet. <a href="#/project/{{project.shortname}}/addcomment" ng-show="currentUser !== ''">Leave one?</a></p>
+        <div ng-repeat="comment in project.comments | orderBy: 'date':true">
+            <h4><strong>{{comment.title}}</strong></h4>
+
+            <p>{{comment.body}}</p>
+
+            <p><a href="#/user/{{comment.author}}">{{comment.author}}</a> on {{comment.date}}</p>
+            <a class="btn btn-default btn-sm" href="" ng-show="currentUser === comment.author"
+               ng-click="deleteComment(comment.date, project.shortname)">Delete</a>
+            <hr/>
+        </div>
     </div>
-    <div class="col-md-3 col-sm-6">
-        <h3>Creator</h3>
-        <ul>
-            <li><a href="#/user/{{project.creator}}">{{ project.creator }}</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <h3>Members</h3>
-        <div ng-show="project.members.length">
+
+
+    <div class="col-md-3 col-md-4">
+        <div>
+            <h3>Owner</h3>
+            <ul ng-show="project.owner">
+                <li><a href="#/user/{{project.owner}}">{{ project.owner }}</a></li>
+            </ul>
+            <p ng-show="!project.owner">{{project.title}} does not have an owner</p>
+        </div>
+        <div>
+            <h3>Creator</h3>
             <ul>
-                <li ng-repeat="user in project.members"><a href="#/user/{{ user }}">{{ user }}</a></li>
+                <li><a href="#/user/{{project.creator}}">{{ project.creator }}</a></li>
             </ul>
         </div>
-        <p ng-show="!project.members.length">{{project.title}} does not have any members</p>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <h3>Followers</h3>
-        <div ng-show="project.followers.length">
-            <ul>
-                <li ng-repeat="user in project.followers"><a href="#/user/{{ user }}">{{ user }}</a></li>
-            </ul>
+        <div>
+            <h3>Members</h3>
+
+            <div ng-show="project.members.length">
+                <ul>
+                    <li ng-repeat="user in project.members"><a href="#/user/{{ user }}">{{ user }}</a></li>
+                </ul>
+            </div>
+            <p ng-show="!project.members.length">{{project.title}} does not have any members</p>
         </div>
-        <p ng-show="!project.followers.length">{{project.title}} does not have any followers</p>
+        <div>
+            <h3>Followers</h3>
+
+            <div ng-show="project.followers.length">
+                <ul>
+                    <li ng-repeat="user in project.followers"><a href="#/user/{{ user }}">{{ user }}</a></li>
+                </ul>
+            </div>
+            <p ng-show="!project.followers.length">{{project.title}} does not have any followers</p>
+        </div>
     </div>
 </div>
