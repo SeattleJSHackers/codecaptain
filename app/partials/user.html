@@ -18,7 +18,7 @@
 
         <h3 style="margin-bottom: 15px;">Recent Comments</h3>
         <div>
-            <div ng-repeat="comment in userComments | orderBy: 'date':true">
+            <div ng-repeat="comment in userComments | orderBy: sortComments:true">
                 <h4><strong>{{comment.title}}</strong></h4>
                 <p>{{comment.body}}</p>
                 <p><a href="#/user/{{comment.author}}">{{comment.author}}</a> in <a href="#/project/{{comment.shortname}}">{{ comment.projectTitle }}</a> on {{comment.date}}</p>

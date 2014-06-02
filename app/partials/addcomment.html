@@ -1,7 +1,7 @@
 <div class="col-md-6 col-md-offset-3">
     <h2>Add Comment</h2>
     <div>
-        <div ng-repeat="comment in comments | limitTo: 3 | orderBy: comment.date">
+        <div ng-repeat="comment in comments | limitTo: 3 | orderBy: orderBy: sortComments">
             <p>{{comment.title}}</p>
             <p>{{comment.author}}</p>
             <p>{{comment.date}}</p>

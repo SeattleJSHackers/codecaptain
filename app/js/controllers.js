@@ -60,6 +60,11 @@ angular.module('myApp.controllers', [])
             projectSvc.deleteComment($scope.currentUser, date, shortname);
         }
 
+        $scope.sortComments = function(comment) {
+            var date = new Date(comment.date);
+            return date.valueOf();
+        }
+
         var update = function() {
             $scope.project = projectSvc.getProject($routeParams.shortname);
             if ($scope.project) {
@@ -80,7 +85,11 @@ angular.module('myApp.controllers', [])
                 return projectSvc.getProjectTitle(shortname);
             };
             $scope.userComments = projectSvc.getCommentsByUsername($routeParams.username);
-            console.log($scope.userComments);
+        }
+
+        $scope.sortComments = function(comment) {
+            var date = new Date(comment.date);
+            return date.valueOf();
         }
         $scope.currentUser = authSvc.username;
         projectSvc.init().then(null, null, update);
@@ -173,10 +182,15 @@ angular.module('myApp.controllers', [])
         $scope.addComment = function() {
             if($scope.comment && authSvc.loggedIn) {
                 $scope.comment.author = authSvc.username;
-                $scope.comment.date = new Date() + '';
+                $scope.comment.date = (new Date()) + '';
                 projectSvc.addComment($scope.comment, project)
             }
             $location.path('/project/' + project)
+        }
+
+        $scope.sortComments = function(comment) {
+            var date = new Date(comment.date);
+            return date.valueOf();
         }
 
     })

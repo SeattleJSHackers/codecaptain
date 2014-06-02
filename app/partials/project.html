@@ -30,7 +30,7 @@
         <h3>Comments</h3>
 
         <p ng-show="project.comments == null || project.comments.length == 0">There are no comments yet. <a href="#/project/{{project.shortname}}/addcomment" ng-show="currentUser !== ''">Leave one?</a></p>
-        <div ng-repeat="comment in project.comments | orderBy: 'date':true">
+        <div ng-repeat="comment in project.comments | orderBy: sortComments:true">
 
             <div class="row">
                 <div class="col-xs-11">
